@@ -1,3 +1,12 @@
+Development start on Saturday, Nov 3rd 2018
+
+Using tailwind css
+
+https://jakearchibald.github.io/svgomg/
+https://feathericons.com/
+https://github.com/feathericons/feather/tree/master/icons
+https://fonts.google.com/specimen/Varela+Round?selection.family=Varela+Round
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
