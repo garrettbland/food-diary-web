@@ -1,0 +1,48 @@
+import React, { Component } from 'react';
+
+class NavBar extends Component {
+  render() {
+    return (
+        <div className="flex flex-row justify-between items-center mb-10">
+            <div className="flex flex-row items-center">
+                <span className="border-2 rounded-full border-teal">
+                    <img className="block h-12 rounded-full" src="https://avatars0.githubusercontent.com/u/19270385?s=460&v=4" alt=""/>
+                </span>
+                <div className="ml-3">
+                    <div>
+                        Garrett Bland
+                    </div>
+                    <div>
+                        gmoranbland@gmail.com
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button className="bg-grey-light hover:bg-grey text-grey-darkest py-2 px-4 rounded-lg inline-flex items-center focus:outline-none">
+                    
+        
+                        <svg
+                                className="w-4 h-4 mr-2" 
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                          <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        </svg>
+
+                    Logout
+                </button>
+            </div>
+        </div>
+    );
+  }
+}
+
+export default NavBar;
