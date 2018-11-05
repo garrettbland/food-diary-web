@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import firebase from '../firebase.js';
+import moment from 'moment';
 
 class Diary extends Component {
 
@@ -32,13 +33,14 @@ class Diary extends Component {
 
         const entriesRef = firebase.database().ref('entries');
         const entry = {
-          title: this.state.title,
-          description: this.state.description
+            title: this.state.title,
+            description: this.state.description,
+            created:moment.now()
         }
         entriesRef.push(entry);
         this.setState({
-          title: '',
-          description: ''
+            title: '',
+            description: '',
         });
     }
 

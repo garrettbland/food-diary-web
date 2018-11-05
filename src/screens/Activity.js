@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import firebase from '../firebase.js';
+import moment from 'moment';
 
 class Activity extends Component {
 
@@ -17,9 +18,10 @@ class Activity extends Component {
       let newState = [];
       for (let item in items) {
         newState.push({
-          id: item,
-          title: items[item].title,
-          description: items[item].description
+            id: item,
+            title: items[item].title,
+            description: items[item].description,
+            created: items[item].created
         });
       }
       this.setState({
@@ -43,6 +45,9 @@ class Activity extends Component {
                     <div className="flex-row items-center w-2/3 max-w-full">
                         <div className="text-3xl text-blue-darker">
                             {item.title}
+                        </div>
+                        <div className="text-grey text-xs">
+                            {moment(item.created).format("MMM DD, YYYY")}
                         </div>
                         <div className="text-grey-dark text-sm pt-2">
                             {item.description}
