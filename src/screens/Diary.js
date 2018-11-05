@@ -6,11 +6,14 @@ class Diary extends Component {
 
     constructor (props) {
         super(props)
+        var user = firebase.auth().currentUser;
+        
         this.state = {
+            user: user,
             title: '',
             description:''
         }
-
+    
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -29,12 +32,12 @@ class Diary extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        alert('A entry was submitted: ' + this.state.title + ' with description of ' + this.state.description);
 
         const entriesRef = firebase.database().ref('entries');
         const entry = {
             title: this.state.title,
             description: this.state.description,
+            email: this.state.user.email,
             created:moment.now()
         }
         entriesRef.push(entry);

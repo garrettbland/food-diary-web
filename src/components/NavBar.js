@@ -1,24 +1,48 @@
 import React, { Component } from 'react';
+import firebase, { auth, provider } from '../firebase.js';
 
 class NavBar extends Component {
+    
+    constructor() {
+    super();
+        var user = firebase.auth().currentUser;
+        this.state = {
+          user: user
+        }
+        
+        this.logout = this.logout.bind(this);
+    }
+    
+    logout() {
+      auth.signOut()
+        .then(() => {
+          window.location.reload();
+          this.setState({
+            user: null
+          });
+        });
+    }
+    
   render() {
     return (
         <div className="flex flex-row justify-between items-center mb-10">
             <div className="flex flex-row items-center">
                 <span className="border-2 rounded-full border-teal">
-                    <img className="block h-12 rounded-full" src="https://avatars0.githubusercontent.com/u/19270385?s=460&v=4" alt=""/>
+                    <img className="block h-12 rounded-full" src={this.state.user.photoURL} alt=""/>
                 </span>
                 <div className="ml-3">
                     <div className="">
-                        Garrett Bland
+                        {this.state.user.displayName}
                     </div>
                     <div className="text-xs text-grey-dark">
-                        gmoranbland@gmail.com
+                        {this.state.user.email}
                     </div>
                 </div>
             </div>
             <div>
-                <button className="bg-grey-light hover:bg-grey text-grey-darkest py-2 px-4 rounded-lg inline-flex items-center focus:outline-none">
+                <button 
+                    className="bg-grey-light hover:bg-grey text-grey-darkest py-2 px-4 rounded-lg inline-flex items-center focus:outline-none"
+                    onClick={this.logout}>
                     <svg
                       className="w-4 h-4 mr-2" 
                       xmlns="http://www.w3.org/2000/svg"
