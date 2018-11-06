@@ -1,13 +1,9 @@
 language: node_js
 node_js:
   - "8"
-before_install:
+install:
   - "npm i -g firebase-tools"
 script:
   - "npm run build"
-deploy:
-  provider: firebase
-  token:
-    secure: $FIREBASE_TOKEN
-  project: "my-food-diary"
-  message: "Deploying to Firebase from Travis CI"
+after_success:
+ — firebase deploy — project my-food-diary-c8b1f — token $FIREBASE_TOKEN
