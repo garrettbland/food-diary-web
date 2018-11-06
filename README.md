@@ -1,5 +1,7 @@
 Development start on Saturday, Nov 3rd 2018
 
+[![Build Status](https://travis-ci.org/garrettbland/food-diary-web.svg?branch=master)](https://travis-ci.org/garrettbland/food-diary-web)
+
 Using tailwind css
 
 https://jakearchibald.github.io/svgomg/
