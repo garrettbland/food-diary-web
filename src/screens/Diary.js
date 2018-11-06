@@ -10,8 +10,7 @@ class Diary extends Component {
         
         this.state = {
             user: user,
-            title: '',
-            description:''
+            body: '',
         }
     
         this.handleChange = this.handleChange.bind(this);
@@ -19,7 +18,7 @@ class Diary extends Component {
     }
 
     componentDidMount(){
-        this.titleInput.focus();
+        this.bodyInput.focus();
     }
 
     handleChange (e) {
@@ -33,17 +32,14 @@ class Diary extends Component {
     handleSubmit(e) {
         e.preventDefault();
 
-        const entriesRef = firebase.database().ref('entries');
+        const entriesRef = firebase.database().ref('entries/'+this.state.user.uid);
         const entry = {
-            title: this.state.title,
-            description: this.state.description,
-            email: this.state.user.email,
+            body: this.state.body,
             created:moment.now()
         }
         entriesRef.push(entry);
         this.setState({
-            title: '',
-            description: '',
+            body: '',
         });
     }
 
@@ -53,19 +49,12 @@ class Diary extends Component {
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
-                    <input
-                        ref={(input) => { this.titleInput = input; }}
-                        value={this.state.title}
-                        onChange={this.handleChange}
-                        className="text-4xl appearance-none w-full text-grey-darker leading-tight focus:outline-none"
-                        name="title"
-                        type="text"
-                        placeholder="What did you consume?"
-                    />
+
                     <textarea
-                        value={this.state.description}
+                        ref={(input) => { this.bodyInput = input; }}
+                        value={this.state.body}
                         onChange={this.handleChange}
-                        name="description"
+                        name="body"
                         rows="5"
                         className="mt-4 bg-grey-lighter rounded-lg appearance-none border-2 border-grey-lighter w-full py-2 px-2 text-grey-darker leading-tight focus:outline-none focus:bg-white focus:border-teal"
                         type="text"

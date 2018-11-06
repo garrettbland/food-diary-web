@@ -4,23 +4,24 @@ import moment from 'moment';
 
 class Activity extends Component {
 
+        
   constructor (props) {
+      var user = firebase.auth().currentUser;
       super(props)
       this.state = {
+          user: user,
           entries: [],
       }
   }
 
   componentDidMount(){
-    const entriesRef = firebase.database().ref('entries');
+    const entriesRef = firebase.database().ref('entries/'+this.state.user.uid);
     entriesRef.on('value', (snapshot) => {
       let items = snapshot.val();
       let newState = [];
       for (let item in items) {
         newState.push({
-            id: item,
-            title: items[item].title,
-            description: items[item].description,
+            body: items[item].body,
             created: items[item].created
         });
       }
@@ -31,7 +32,7 @@ class Activity extends Component {
   }
 
   removeItem(id) {
-    const entryId = firebase.database().ref(`/entries/${id}`);
+    const entryId = firebase.database().ref('entries/'+this.state.user.uid+'/'+id);
     entryId.remove();
   }
 
@@ -43,13 +44,10 @@ class Activity extends Component {
                 <div key={item.id} className="w-full bg-grey-lighter rounded-lg flex flex-column justify-between items-center mt-4 px-4 py-4">
                     <div className="flex-row items-center w-2/3 max-w-full">
                         <div className="text-3xl text-blue-darker">
-                            {item.title}
+                            {item.body}
                         </div>
                         <div className="text-grey text-xs">
                             {moment(item.created).format("MMM DD, YYYY")}
-                        </div>
-                        <div className="text-grey-dark text-sm pt-2">
-                            {item.description}
                         </div>
                     </div>
                     <div>
