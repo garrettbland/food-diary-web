@@ -1,12 +1,12 @@
 language: node_js
-node_js:
- — “stable”
+script:
+  - "npm test"
+  - "npm run build"
+node_js: 
+  - “stable”
 cache:
   directories:
-  - node_modules
-script:
-  - npm test
-  - npm run build
+    - node_modules
 deploy:
   provider: firebase
   token:
