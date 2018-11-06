@@ -6,4 +6,4 @@ before_install:
 script:
   - "npm run build"
 after_success:
- — firebase deploy — project my-food-diary-c8b1f — token $FIREBASE_TOKEN
+  - "firebase deploy — project my-food-diary-c8b1f — token $FIREBASE_TOKEN"
