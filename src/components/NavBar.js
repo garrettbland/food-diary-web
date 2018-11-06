@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import firebase, { auth, provider } from '../firebase.js';
+import firebase, { auth } from '../firebase.js';
 
 class NavBar extends Component {
     

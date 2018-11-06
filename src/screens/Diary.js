@@ -34,7 +34,12 @@ class Diary extends Component {
         
         var body = this.state.body;
         //Find all prices in body that match '$432.432' or that pattern and put in array
-        var prices = body.match(/\$((?:\d|\,)*\.?\d+)/g) || [];
+        
+        //This was the old prices regex match but gave warning
+        //var prices = body.match(/\$((?:\d|\,)*\.?\d+)/g) || [];
+        
+        var prices = body.match(/\$((?:\d|,)*\.?\d+)/g) || [];
+        var total;
         
         //Check if there are any '$' matches
         if(prices.length > 0){
@@ -45,12 +50,12 @@ class Diary extends Component {
             });
 
             //get the sum of prices in entry
-            var total = newPrices.reduce(function(total,num){
+            total = newPrices.reduce(function(total,num){
                 return total + num;
             });
         }else{
             //if no matches set total to 0
-            var total = 0;
+            total = 0;
         }
 
         const entriesRef = firebase.database().ref('entries/'+this.state.user.uid);
