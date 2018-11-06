@@ -10,9 +10,9 @@ class Diary extends Component {
         
         this.state = {
             user: user,
-            body: '',
+            body: ''
         }
-    
+        
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -22,24 +22,47 @@ class Diary extends Component {
     }
 
     handleChange (e) {
-        // we get the entry.target.name (which will be either "title" or "description")
-        // and use it to target the key on our `state` object with the same name, using bracket syntax
+
         this.setState({
             [e.target.name]: e.target.value
         });
+        
     }
 
     handleSubmit(e) {
         e.preventDefault();
+        
+        var body = this.state.body;
+        //Find all prices in body that match '$432.432' or that pattern and put in array
+        var prices = body.match(/\$((?:\d|\,)*\.?\d+)/g) || [];
+        
+        //Check if there are any '$' matches
+        if(prices.length > 0){
+            var newPrices = [];
+            prices.forEach( function(p){
+                //Strip '$' from price and push just doubles to newPrices array. Also converts strind double to actual number
+                newPrices.push(Number(p.replace(/\$/g,'')))
+            });
+
+            //get the sum of prices in entry
+            var total = newPrices.reduce(function(total,num){
+                return total + num;
+            });
+        }else{
+            //if no matches set total to 0
+            var total = 0;
+        }
 
         const entriesRef = firebase.database().ref('entries/'+this.state.user.uid);
         const entry = {
             body: this.state.body,
+            cost: total,
             created:moment.now()
         }
         entriesRef.push(entry);
         this.setState({
             body: '',
+            prices: [],
         });
     }
 
@@ -49,7 +72,6 @@ class Diary extends Component {
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
-
                     <textarea
                         ref={(input) => { this.bodyInput = input; }}
                         value={this.state.body}

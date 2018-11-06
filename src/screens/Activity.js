@@ -21,7 +21,9 @@ class Activity extends Component {
       let newState = [];
       for (let item in items) {
         newState.push({
+            id: item,
             body: items[item].body,
+            cost: items[item].cost,
             created: items[item].created
         });
       }
@@ -47,7 +49,10 @@ class Activity extends Component {
                             {item.body}
                         </div>
                         <div className="text-grey text-xs">
-                            {moment(item.created).format("MMM DD, YYYY")}
+                            {moment(item.created).format("MMM DD, YYYY")} <span className="text-teal">{item.cost !== 0 ? `$${item.cost}` : null}</span>
+                        </div>
+                        <div className="text-grey-dark text-sm pt-2">
+                            {item.description}
                         </div>
                     </div>
                     <div>
