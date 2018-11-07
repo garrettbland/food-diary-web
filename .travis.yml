@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - "8"
 before_install:
-  - "yarn add -g firebase-tools"
+  - "yarn add firebase-tools"
 script:
   - "yarn run build"
 after_success:
