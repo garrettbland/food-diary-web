@@ -10,7 +10,8 @@ class Diary extends Component {
         
         this.state = {
             user: user,
-            body: ''
+            body: '',
+            showSuccessMessage: false
         }
         
         this.handleChange = this.handleChange.bind(this);
@@ -19,6 +20,9 @@ class Diary extends Component {
 
     componentDidMount(){
         this.bodyInput.focus();
+        this.setState({
+            showSuccessMessage: false
+        })
     }
 
     handleChange (e) {
@@ -68,6 +72,7 @@ class Diary extends Component {
         this.setState({
             body: '',
             prices: [],
+            showSuccessMessage: true,
         });
     }
 
@@ -76,6 +81,12 @@ class Diary extends Component {
     render() {
         return (
             <div>
+                {this.state.showSuccessMessage &&
+                  <div class="p-2 bg-indigo-darker items-center text-indigo-lightest leading-none lg:rounded-full flex lg:inline-flex" role="alert">
+                    <span class="flex rounded-full bg-green uppercase px-2 py-1 text-xs font-bold mr-3">Success</span>
+                    <span class="mr-2 text-left flex-auto">Entry added successfully</span>
+                  </div>
+                }
                 <form onSubmit={this.handleSubmit}>
                     <textarea
                         ref={(input) => { this.bodyInput = input; }}
@@ -85,7 +96,7 @@ class Diary extends Component {
                         rows="5"
                         className="mt-4 bg-grey-lighter rounded-lg appearance-none border-2 border-grey-lighter w-full py-2 px-2 text-grey-darker leading-tight focus:outline-none focus:bg-white focus:border-teal"
                         type="text"
-                        placeholder="Describe portions, why you ate or drank, who you were with, ect..."
+                        placeholder="eg, had fast food for lunch and spent $7.56..."
                     />
                     <button
                         className="bg-teal hover:bg-teal-dark text-grey-lightest py-2 px-4 rounded-lg inline-flex items-center mt-4 focus:outline-none"

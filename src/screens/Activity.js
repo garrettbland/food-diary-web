@@ -15,8 +15,18 @@ class Activity extends Component {
   }
 
   componentDidMount(){
-    const entriesRef = firebase.database().ref('entries/'+this.state.user.uid);
-    entriesRef.on('value', (snapshot) => {
+    
+    var startOfDay = moment().startOf('day');
+    var endOfDay = moment().endOf('day');
+    console.log(moment(startOfDay).unix());
+    console.log(moment(endOfDay).unix());
+      
+    const db = firebase.database().ref();
+    const entries = db.child('entries/'+this.state.user.uid);
+    const query = entries;
+      
+    //const entriesRef = firebase.database().ref('entries/'+this.state.user.uid);
+    query.on('value', (snapshot) => {
       let items = snapshot.val();
       let newState = [];
       for (let item in items) {
@@ -28,7 +38,7 @@ class Activity extends Component {
         });
       }
       this.setState({
-        entries: newState
+        entries: newState.reverse()
       });
     });
   }
@@ -49,7 +59,7 @@ class Activity extends Component {
                             {item.body}
                         </div>
                         <div className="text-grey text-xs">
-                            {moment(item.created).format("MMM DD, YYYY")} <span className="text-teal">{item.cost !== 0 ? `$${item.cost}` : null}</span>
+                            {moment(item.created).format("dddd, MMM Do YYYY")} <span className="text-teal">{item.cost !== 0 ? `$${item.cost}` : null}</span>
                         </div>
                         <div className="text-grey-dark text-sm pt-2">
                             {item.description}

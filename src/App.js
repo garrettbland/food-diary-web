@@ -3,6 +3,7 @@ import Routes from './router/routes';
 import { auth, provider } from './firebase.js';
 import NavBar from './components/NavBar';
 import Tabs from './components/Tabs';
+import Login from './screens/Login';
 
 class App extends Component {
 
@@ -12,7 +13,7 @@ class App extends Component {
             user: null
         }
         
-        this.login = this.login.bind(this);
+      
     }
     
     componentDidMount() {
@@ -20,16 +21,6 @@ class App extends Component {
             if (user) {
               this.setState({ user });
             } 
-        });
-    }
-    
-    login() {
-      auth.signInWithRedirect(provider) 
-        .then((result) => {
-          const user = result.user;
-          this.setState({
-            user
-          });
         });
     }
     
@@ -46,10 +37,7 @@ class App extends Component {
             );
         }else{
             return (
-                <div>
-                    <h1>Please sign up or login</h1>
-                    <button onClick={this.login}>Log In</button> 
-                </div>
+                <Login/> 
             );
         }
     }
