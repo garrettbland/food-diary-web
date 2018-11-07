@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Routes from './router/routes';
-import { auth, provider } from './firebase.js';
+import { auth } from './firebase.js';
 import NavBar from './components/NavBar';
 import Tabs from './components/Tabs';
 import Login from './screens/Login';

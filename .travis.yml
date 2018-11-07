@@ -4,6 +4,6 @@ node_js:
 before_install:
   - "yarn add firebase-tools"
 script:
-  - "yarn run build"
+  - "yarn build"
 after_success:
   - firebase deploy --token $FIREBASE_TOKEN
