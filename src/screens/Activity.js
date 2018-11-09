@@ -40,7 +40,7 @@ class Activity extends Component {
       }
       t.setState({
         entries: newState.reverse(),
-        total:total
+        total:total.toFixed(2)
       });
     });
   }
