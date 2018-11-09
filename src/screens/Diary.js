@@ -118,7 +118,7 @@ class Diary extends Component {
                         rows="5"
                         className="mt-4 bg-grey-lighter rounded-lg appearance-none border-2 border-grey-lighter w-full py-2 px-2 text-grey-darker leading-tight focus:outline-none focus:bg-white focus:border-teal"
                         type="text"
-                        placeholder="had jimmy johns with a dr pepper for lunch $9.40"
+                        placeholder="had jimmy johns with a dr pepper for lunch $9.40 @850"
                     />
                     <button
                         className="bg-teal hover:bg-teal-dark text-grey-lightest py-2 px-4 rounded-lg inline-flex items-center mt-4 focus:outline-none"
