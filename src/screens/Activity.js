@@ -11,24 +11,24 @@ class Activity extends Component {
       this.state = {
           user: user,
           entries: [],
+          total:null,
       }
   }
 
   componentDidMount(){
     
-    var startOfDay = moment().startOf('day');
-    var endOfDay = moment().endOf('day');
-    console.log(moment(startOfDay).unix());
-    console.log(moment(endOfDay).unix());
+    var startOfDay = moment().startOf('day').unix()*1000;
+    var endOfDay = moment().endOf('day').unix()*1000;
       
-    const db = firebase.database().ref();
-    const entries = db.child('entries/'+this.state.user.uid);
+    const db = firebase.database().ref('entries/'+this.state.user.uid);
+    const entries = db.orderByChild('created').startAt(startOfDay).endAt(endOfDay);
     const query = entries;
-      
+    let t = this;
     //const entriesRef = firebase.database().ref('entries/'+this.state.user.uid);
     query.on('value', (snapshot) => {
       let items = snapshot.val();
       let newState = [];
+      let total = 0;
       for (let item in items) {
         newState.push({
             id: item,
@@ -36,9 +36,11 @@ class Activity extends Component {
             cost: items[item].cost,
             created: items[item].created
         });
+        total = total + items[item].cost;
       }
-      this.setState({
-        entries: newState.reverse()
+      t.setState({
+        entries: newState.reverse(),
+        total:total
       });
     });
   }
@@ -51,11 +53,14 @@ class Activity extends Component {
   render() {
     return (
         <div>
+            <div className="text-indigo text-2xl">
+              ${this.state.total} spent today
+            </div>
             {this.state.entries.map((item) => {
               return (
                 <div key={item.id} className="w-full bg-grey-lighter rounded-lg flex flex-column justify-between items-center mt-4 px-4 py-4">
                     <div className="flex-row items-center w-2/3 max-w-full">
-                        <div className="text-3xl text-blue-darker">
+                        <div className="text-xl text-blue-darker">
                             {item.body}
                         </div>
                         <div className="text-grey text-xs">

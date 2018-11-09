@@ -64,7 +64,7 @@ class Diary extends Component {
 
         const entriesRef = firebase.database().ref('entries/'+this.state.user.uid);
         const entry = {
-            body: this.state.body,
+            body: this.state.body.replace(/\$((?:\d|,)*\.?\d+)/g,""),
             cost: total,
             created:moment.now()
         }
@@ -82,9 +82,9 @@ class Diary extends Component {
         return (
             <div>
                 {this.state.showSuccessMessage &&
-                  <div class="p-2 bg-indigo-darker items-center text-indigo-lightest leading-none lg:rounded-full flex lg:inline-flex" role="alert">
-                    <span class="flex rounded-full bg-green uppercase px-2 py-1 text-xs font-bold mr-3">Success</span>
-                    <span class="mr-2 text-left flex-auto">Entry added successfully</span>
+                  <div className="p-2 bg-indigo-darker items-center text-indigo-lightest leading-none lg:rounded-full flex lg:inline-flex" role="alert">
+                    <span className="flex rounded-full bg-green uppercase px-2 py-1 text-xs font-bold mr-3">Success</span>
+                    <span className="mr-2 text-left flex-auto">Entry added successfully</span>
                   </div>
                 }
                 <form onSubmit={this.handleSubmit}>
