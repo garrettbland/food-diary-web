@@ -12,6 +12,7 @@ class Activity extends Component {
           user: user,
           entries: [],
           total:null,
+          caloriesTotal:null,
       }
   }
 
@@ -29,18 +30,23 @@ class Activity extends Component {
       let items = snapshot.val();
       let newState = [];
       let total = 0;
+      let caloriesTotal = 0;
       for (let item in items) {
         newState.push({
             id: item,
             body: items[item].body,
+            calories: items[item].calories,
             cost: items[item].cost,
             created: items[item].created
         });
         total = total + items[item].cost;
+        caloriesTotal = caloriesTotal + items[item].calories;
+        console.log(items[item].calories);
       }
       t.setState({
         entries: newState.reverse(),
-        total:total.toFixed(2)
+        total:total.toFixed(2),
+        caloriesTotal: caloriesTotal
       });
     });
   }
@@ -53,8 +59,12 @@ class Activity extends Component {
   render() {
     return (
         <div>
+
             <div className="text-indigo text-2xl">
-              ${this.state.total} spent today
+              {this.state.total === null ? 'Loading...' : '$'+this.state.total+' spent today'}
+            </div>
+            <div className="text-green text-2xl">
+              {this.state.caloriesTotal === null ? 'Loading...' : this.state.caloriesTotal+' calories consumed today'}
             </div>
             {this.state.entries.map((item) => {
               return (

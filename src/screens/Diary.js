@@ -43,7 +43,9 @@ class Diary extends Component {
         //var prices = body.match(/\$((?:\d|\,)*\.?\d+)/g) || [];
         
         var prices = body.match(/\$((?:\d|,)*\.?\d+)/g) || [];
+        var calories = body.match(/\@((?:\d|,)*\.?\d+)/g) || [];
         var total;
+        var caloriesTotal;
         
         //Check if there are any '$' matches
         if(prices.length > 0){
@@ -62,16 +64,36 @@ class Diary extends Component {
             total = 0;
         }
 
+        //Check if there are any '@' matches for calories
+        if(calories.length > 0){
+            var newCalories = [];
+            calories.forEach( function(p){
+                //Strip '$' from price and push just doubles to newPrices array. Also converts strind double to actual number
+                newCalories.push(Number(p.replace(/\@/g,'')))
+            });
+
+            //get the sum of prices in entry
+            caloriesTotal = newCalories.reduce(function(caloriesTotal,num){
+                return caloriesTotal + num;
+            });
+        }else{
+            //if no matches set total to 0
+            caloriesTotal = 0;
+        }
+
+        var removeCost = this.state.body.replace(/\$((?:\d|,)*\.?\d+)/g,"");
+        var removeCalories = removeCost.replace(/\@((?:\d|,)*\.?\d+)/g,"");
+
         const entriesRef = firebase.database().ref('entries/'+this.state.user.uid);
         const entry = {
-            body: this.state.body.replace(/\$((?:\d|,)*\.?\d+)/g,""),
+            body: removeCalories,
+            calories: caloriesTotal,
             cost: total,
             created:moment.now()
         }
         entriesRef.push(entry);
         this.setState({
             body: '',
-            prices: [],
             showSuccessMessage: true,
         });
     }
@@ -96,7 +118,7 @@ class Diary extends Component {
                         rows="5"
                         className="mt-4 bg-grey-lighter rounded-lg appearance-none border-2 border-grey-lighter w-full py-2 px-2 text-grey-darker leading-tight focus:outline-none focus:bg-white focus:border-teal"
                         type="text"
-                        placeholder="eg, had fast food for lunch and spent $7.56..."
+                        placeholder="had jimmy johns with a dr pepper for lunch $9.40"
                     />
                     <button
                         className="bg-teal hover:bg-teal-dark text-grey-lightest py-2 px-4 rounded-lg inline-flex items-center mt-4 focus:outline-none"
