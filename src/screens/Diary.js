@@ -7,13 +7,13 @@ class Diary extends Component {
     constructor (props) {
         super(props)
         var user = firebase.auth().currentUser;
-        
+
         this.state = {
             user: user,
             body: '',
             showSuccessMessage: false
         }
-        
+
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -30,23 +30,23 @@ class Diary extends Component {
         this.setState({
             [e.target.name]: e.target.value
         });
-        
+
     }
 
     handleSubmit(e) {
         e.preventDefault();
-        
+
         var body = this.state.body;
         //Find all prices in body that match '$432.432' or that pattern and put in array
-        
+
         //This was the old prices regex match but gave warning
         //var prices = body.match(/\$((?:\d|\,)*\.?\d+)/g) || [];
-        
+
         var prices = body.match(/\$((?:\d|,)*\.?\d+)/g) || [];
-        var calories = body.match(/\@((?:\d|,)*\.?\d+)/g) || [];
+        var calories = body.match(/@((?:\d|,)*\.?\d+)/g) || [];
         var total;
         var caloriesTotal;
-        
+
         //Check if there are any '$' matches
         if(prices.length > 0){
             var newPrices = [];
@@ -69,7 +69,7 @@ class Diary extends Component {
             var newCalories = [];
             calories.forEach( function(p){
                 //Strip '$' from price and push just doubles to newPrices array. Also converts strind double to actual number
-                newCalories.push(Number(p.replace(/\@/g,'')))
+                newCalories.push(Number(p.replace(/@/g,'')))
             });
 
             //get the sum of prices in entry
@@ -82,7 +82,7 @@ class Diary extends Component {
         }
 
         var removeCost = this.state.body.replace(/\$((?:\d|,)*\.?\d+)/g,"");
-        var removeCalories = removeCost.replace(/\@((?:\d|,)*\.?\d+)/g,"");
+        var removeCalories = removeCost.replace(/@((?:\d|,)*\.?\d+)/g,"");
 
         const entriesRef = firebase.database().ref('entries/'+this.state.user.uid);
         const entry = {
